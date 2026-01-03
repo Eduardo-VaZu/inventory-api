@@ -1,0 +1,176 @@
+{
+	"info": {
+		"_postman_id": "c1234567-89ab-cdef-0123-456789abcdef",
+		"name": "Warehouse Inventory API",
+		"description": "Colección para probar la API de inventario con carga masiva, paginación y filtrado avanzado (Specifications).",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "1. Carga Masiva de Productos",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "[\n    { \"sku\": \"ELEC-001\", \"name\": \"Laptop Gamer\", \"price\": 1500.00, \"stock\": 10, \"category\": \"ELECTRONICS\" },\n    { \"sku\": \"ELEC-002\", \"name\": \"Mouse Inalámbrico\", \"price\": 25.50, \"stock\": 50, \"category\": \"ELECTRONICS\" },\n    { \"sku\": \"HOME-001\", \"name\": \"Sofá 3 Cuerpos\", \"price\": 450.00, \"stock\": 5, \"category\": \"HOME\" },\n    { \"sku\": \"TOY-001\", \"name\": \"Lego Star Wars\", \"price\": 120.00, \"stock\": 20, \"category\": \"TOYS\" },\n    { \"sku\": \"ELEC-003\", \"name\": \"Teclado Mecánico\", \"price\": 85.00, \"stock\": 30, \"category\": \"ELECTRONICS\" },\n    { \"sku\": \"HOME-002\", \"name\": \"Lámpara LED\", \"price\": 15.00, \"stock\": 100, \"category\": \"HOME\" },\n    { \"sku\": \"ELEC-004\", \"name\": \"Monitor 4K\", \"price\": 300.00, \"stock\": 15, \"category\": \"ELECTRONICS\" },\n    { \"sku\": \"TOY-002\", \"name\": \"Muñeco Acción\", \"price\": 15.00, \"stock\": 200, \"category\": \"TOYS\" }\n]",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/products",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"products"
+					]
+				},
+				"description": "Crea múltiples productos a la vez para poblar la base de datos."
+			},
+			"response": []
+		},
+		{
+			"name": "2. Obtener Todos (Paginado Default)",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/products",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"products"
+					]
+				},
+				"description": "Trae la primera página (page=0, size=10) ordenada por ID."
+			},
+			"response": []
+		},
+		{
+			"name": "3. Filtrar por Categoría (ELECTRONICS)",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/products?category=ELECTRONICS",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"products"
+					],
+					"query": [
+						{
+							"key": "category",
+							"value": "ELECTRONICS"
+						}
+					]
+				},
+				"description": "Filtra solo los productos de electrónica."
+			},
+			"response": []
+		},
+		{
+			"name": "4. Filtro Avanzado + Ordenamiento",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/products?category=ELECTRONICS&minPrice=50&sort=price,desc",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"products"
+					],
+					"query": [
+						{
+							"key": "category",
+							"value": "ELECTRONICS"
+						},
+						{
+							"key": "minPrice",
+							"value": "50"
+						},
+						{
+							"key": "sort",
+							"value": "price,desc"
+						}
+					]
+				},
+				"description": "Electrónica, precio > 50, ordenado del más caro al más barato."
+			},
+			"response": []
+		},
+		{
+			"name": "5. Paginación Explícita (Página 2)",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/products?page=1&size=2",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"products"
+					],
+					"query": [
+						{
+							"key": "page",
+							"value": "1",
+							"description": "Índice base 0 (1 es la segunda página)"
+						},
+						{
+							"key": "size",
+							"value": "2"
+						}
+					]
+				},
+				"description": "Muestra la segunda página, con solo 2 elementos por página."
+			},
+			"response": []
+		},
+		{
+			"name": "6. Buscar por Nombre (Contiene)",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/products?name=Gamer",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"products"
+					],
+					"query": [
+						{
+							"key": "name",
+							"value": "Gamer"
+						}
+					]
+				},
+				"description": "Busca productos que contengan 'Gamer' en el nombre."
+			},
+			"response": []
+		}
+	]
+}
